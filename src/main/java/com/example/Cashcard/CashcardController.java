@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/cashcards")
 public class CashcardController {
 
-    @GetMapping
-    public ResponseEntity<String> findById() {
-        return ResponseEntity.ok("{}");
+    @GetMapping("{requestedId}")
+    public ResponseEntity<CashCard> findById() {
+
+        CashCard cashCard = new CashCard(99L, 100.5);
+
+        return ResponseEntity.ok(cashCard);
     }
 }
