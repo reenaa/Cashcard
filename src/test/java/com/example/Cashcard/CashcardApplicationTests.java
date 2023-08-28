@@ -24,11 +24,18 @@ class CashcardApplicationTests {
         ResponseEntity<String> response = restTemplate.getForEntity("/cashcards/99", String.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
-        //System.out.println(response.getBody());
         DocumentContext documentContext =JsonPath.parse(response.getBody());
         Number id =  documentContext.read("$.id");
+        assertThat(id).isEqualTo(99);
         Double value = documentContext.read("$.amount");
-        assertThat(value).isNotNull();
-        assertThat(id).isNotNull();
+        assertThat(value).isEqualTo(123.45);
+//        assertThat(value).isNotNull();
+//        assertThat(id).isNotNull();
+    }
+    @Test
+    void shouldNotReturnACashCardWithAnUnknownId(){
+        ResponseEntity<String> response = restTemplate.getForEntity("/cashcards/1000",String.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+        assertThat(response.getBody()).isBlank();
     }
 }
